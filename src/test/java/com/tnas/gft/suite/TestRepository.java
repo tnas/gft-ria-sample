@@ -45,6 +45,8 @@ public abstract class TestRepository {
 			Long generatedBalance = TargetDatabase.getInstance().selectBalanceOfCNPJ(cnpjPersisted);
 			Assert.assertEquals(expectedBalance, generatedBalance);
 		}
+		
+		Assert.assertEquals(data.size(), TargetDatabase.getInstance().selectAllCNPJTableBalance().size());
 	}
 	
 	@Test
@@ -59,6 +61,8 @@ public abstract class TestRepository {
 			Assert.assertTrue("Expected CNPJ: " + expectedCNPJ, 
 					TargetDatabase.getInstance().existsCNPJonBalanceTable(expectedCNPJ));
 		}
+		
+		Assert.assertEquals(data.size(), TargetDatabase.getInstance().selectAllCNPJTableBalance().size());
 	}
 	
 	/**
