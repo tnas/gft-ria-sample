@@ -1,22 +1,22 @@
 package com.tnas.gft.initialstate;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
-import com.tnas.gft.model.CNPJ;
+import java.util.Map;
 
 public class InitialStateValidationDigit implements InitialStateEmployerService {
 
-	private List<CNPJ> listCNPJ;
+	private Map<String, List<Long>> inputData;
 	
 	public InitialStateValidationDigit() {
-		this.listCNPJ = new ArrayList<>();
-		this.listCNPJ.add(new CNPJ("863832180001", 2L, 0L));
-		this.listCNPJ.add(new CNPJ("364657490001", 0L, 1L));
+		this.inputData = new HashMap<>();
+		this.inputData.put("863832180001", Arrays.asList(2L, 0L));
+		this.inputData.put("364657490001", Arrays.asList(0L, 1L));
 	}
 	
 	@Override
-	public List<CNPJ> getListCNPJ() {
-		return this.listCNPJ;
+	public Map<String, List<Long>> getInputData() {
+		return this.inputData;
 	}
 }

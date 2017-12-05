@@ -1,10 +1,9 @@
 package com.tnas.gft.initialstate;
 
 import java.util.List;
-
-import com.tnas.gft.model.CNPJ;
+import java.util.Map;
 
 public interface InitialStateEmployerService {
 
-	List<CNPJ> getListCNPJ();
+	Map<String, List<Long>> getInputData();
 }

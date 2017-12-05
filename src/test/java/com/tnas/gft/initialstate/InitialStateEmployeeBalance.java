@@ -1,23 +1,23 @@
 package com.tnas.gft.initialstate;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
-import com.tnas.gft.model.CNPJ;
+import java.util.Map;
 
 public class InitialStateEmployeeBalance implements InitialStateEmployerService {
 
-	private List<CNPJ> listCNPJ;
+	private Map<String, List<Long>> inputData;
 	
 	public InitialStateEmployeeBalance() {
-		this.listCNPJ = new ArrayList<>();
-		this.listCNPJ.add(new CNPJ("407994500001", 10L, 5L));
-		this.listCNPJ.add(new CNPJ("125942160001", 10L, 10L));
-		this.listCNPJ.add(new CNPJ("573964610001", 5L, 10L));
+		this.inputData = new HashMap<>();
+		this.inputData.put("407994500001", Arrays.asList(10L, 5L));
+		this.inputData.put("125942160001", Arrays.asList(10L, 10L));
+		this.inputData.put("573964610001", Arrays.asList(5L, 10L));
 	}
 	
 	@Override
-	public List<CNPJ> getListCNPJ() {
-		return this.listCNPJ;
+	public Map<String, List<Long>> getInputData() {
+		return this.inputData;
 	}
 }

@@ -1,9 +1,9 @@
 package com.tnas.gft.database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import com.tnas.gft.model.CNPJ;
+import java.util.Map;
 
 
 public class SourceDatabase {
@@ -16,26 +16,24 @@ public class SourceDatabase {
 	}
 	
 	private SourceDatabase() {
-		this.cnpjList = new ArrayList<>();
+		this.data = new HashMap<>();
 	}
 	
-	private List<CNPJ> cnpjList;
+	private Map<String, List<Long>> data;
 	
-	public void loadCNPJ(CNPJ cnpj) {
-		this.cnpjList.add(cnpj);
+	public void loadCNPJData(String cnpjNoVD, Long admitted, Long layoff) {
+		List<Long> balance = new ArrayList<Long>();
+		balance.add(admitted);
+		balance.add(layoff);
+		this.data.put(cnpjNoVD, balance);
 	}
 	
-	public void loadListCNPJ(List<CNPJ> list) {
-		this.cnpjList.addAll(list);
+	public void loadCNPJDataChunk(Map<String, List<Long>> chunck) {
+		this.data.putAll(chunck);
 	}
 	
-	public List<CNPJ> getAllCNPJ() {
-		return this.cnpjList;
+	public Map<String, List<Long>> getAllCNPJData() {
+		return this.data;
 	}
 	
-	public CNPJ getCNPJ() {
-		if (this.cnpjList != null && (!this.cnpjList.isEmpty()))
-			return this.cnpjList.get(0);
-		return null;
-	}
 }

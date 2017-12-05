@@ -1,10 +1,14 @@
 package com.tnas.gft.suite;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.tnas.gft.database.SourceDatabase;
 import com.tnas.gft.database.TargetDatabase;
+import com.tnas.gft.factory.CNPJFactory;
 import com.tnas.gft.initialstate.InitialStateEmployerService;
 import com.tnas.gft.model.CNPJ;
 import com.tnas.gft.service.EmployerApplicationService;
@@ -23,7 +27,7 @@ public abstract class TestRepository {
 	public TestRepository() {
 		this.employerService = new EmployerStandaloneApplicationService();
 		InitialStateEmployerService initialState = getInitialStateEmployerService();
-		SourceDatabase.getInstance().loadListCNPJ(initialState.getListCNPJ());
+		SourceDatabase.getInstance().loadCNPJDataChunk(initialState.getInputData());
 	}
 
 	protected abstract InitialStateEmployerService getInitialStateEmployerService();
@@ -31,7 +35,10 @@ public abstract class TestRepository {
 	@Test
 	public void testEmployeeBalance() {
 		
-		for (CNPJ cnpj : SourceDatabase.getInstance().getAllCNPJ()) {
+		Map<String, List<Long>> data = SourceDatabase.getInstance().getAllCNPJData(); 
+		
+		for (String strCnpj : data.keySet()) {
+			CNPJ cnpj = CNPJFactory.getInstance().build(strCnpj, data.get(strCnpj));
 			Long expectedBalance = cnpj.getAdmitted() - cnpj.getLayoff();
 			this.employerService.generateBalance(cnpj);
 			String cnpjPersisted = TargetDatabase.getInstance().selectCNPJfromCNPJNoVD(cnpj.getValueNoDV());
@@ -43,7 +50,10 @@ public abstract class TestRepository {
 	@Test
 	public void testCNPJValidationDigit() {
 		
-		for (CNPJ cnpj : SourceDatabase.getInstance().getAllCNPJ()) {
+		Map<String, List<Long>> data = SourceDatabase.getInstance().getAllCNPJData();
+		
+		for (String strCnpj : data.keySet()) {
+			CNPJ cnpj = CNPJFactory.getInstance().build(strCnpj, data.get(strCnpj));
 			String expectedCNPJ = addCNPJValidationDigit(cnpj.getValueNoDV());
 			this.employerService.generateBalance(cnpj);
 			Assert.assertTrue("Expected CNPJ: " + expectedCNPJ, 
